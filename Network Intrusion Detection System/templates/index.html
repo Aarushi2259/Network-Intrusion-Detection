@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI-NIDS Command Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="p-4">
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12 glass-panel d-flex justify-content-between align-items-center">
+            <h2 class="cyber-title mb-0">🛡️ NIDS Sentinel Core</h2>
+            <div class="d-flex gap-4">
+                <div class="text-end">
+                    <small class="text-secondary d-block">INTERFACE</small>
+                    <span id="iface" class="text-info fw-bold">SCANNING...</span>
+                </div>
+                <div class="text-end">
+                    <small class="text-secondary d-block">CORE STATUS</small>
+                    <span class="text-success fw-bold">ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-3">
+            <div class="glass-panel mb-4">
+                <h6 class="text-secondary mb-4">THREAT DISTRIBUTION</h6>
+                <canvas id="threatChart"></canvas>
+            </div>
+            <div class="glass-panel">
+                <h6 class="text-secondary mb-3">QUICK METRICS</h6>
+                <div class="mb-3">
+                    <small class="d-block text-secondary">TOTAL PACKETS</small>
+                    <span class="metric-value text-white" id="total-pkts">0</span>
+                </div>
+                <div>
+                    <small class="d-block text-secondary text-danger">CRITICAL ALERTS</small>
+                    <span class="metric-value text-danger" id="threat-pkts">0</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="glass-panel h-100">
+                <div class="d-flex justify-content-between mb-3">
+                    <h6 class="text-secondary">LIVE INTELLIGENCE FEED</h6>
+                    <span class="badge bg-primary px-3 py-2">REAL-TIME</span>
+                </div>
+                <div class="overflow-auto" style="height: 600px;">
+                    <table class="table table-dark table-borderless align-middle">
+                        <thead class="sticky-top bg-dark">
+                            <tr class="text-secondary small">
+                                <th>TIME</th>
+                                <th>SOURCE IP</th>
+                                <th>CLASSIFICATION</th>
+                                <th>RISK</th>
+                            </tr>
+                        </thead>
+                        <tbody id="log-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="glass-panel mb-4">
+                <h6 class="text-secondary mb-4">ATTACK INTENSITY</h6>
+                <canvas id="intensityChart"></canvas>
+            </div>
+            <div class="glass-panel">
+                <h6 class="text-secondary mb-3">SYSTEM ACTIONS</h6>
+                <button class="btn btn-outline-success w-100 mb-2 py-3" onclick="downloadReport()">
+                📥 DOWNLOAD INTELLIGENCE REPORT
+                </button>
+                <button class="btn btn-outline-danger w-100 mb-2 py-3" onclick="clearLogs()">
+                🗑️ PURGE LOGS
+                </button>
+                <button class="btn btn-outline-info w-100 py-3" id="pause-btn">
+                ⏸️ FREEZE FEED
+                </button>
+                <div class="mt-4 p-2 rounded bg-opacity-10 bg-info border border-info border-opacity-25">
+                    <small class="text-info" style="font-size: 0.7rem;">
+                        💡 TIP: Click anywhere on the dashboard once to enable Cyber-Alert audio notifications.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</body>
+</html>
