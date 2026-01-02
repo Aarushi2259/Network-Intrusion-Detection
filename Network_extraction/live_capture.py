@@ -1,11 +1,13 @@
 import pyshark
 from datetime import datetime
 from Feature_extraction.feature_extractor import FeatureExtractor
+from config.feature_schema import FEATURE_COLUMNS
+from Data_pipeline.CSVWriter import CSVfeatureWriter
 
 
 class PacketSniffer:
 
-    def start(self, packet_limit=1000):
+    def start(self, packet_limit=1500):
         capture = pyshark.LiveCapture(interface='Wi-Fi')
         extractor = FeatureExtractor()
        
