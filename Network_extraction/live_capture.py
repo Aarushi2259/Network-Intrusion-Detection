@@ -2,7 +2,7 @@ import pyshark
 from datetime import datetime
 from Feature_extraction.feature_extractor import FeatureExtractor
 from config.feature_schema import FEATURE_COLUMNS
-from Data_pipeline.CSVWriter import CSVfeatureWriter
+from Data_pipeline.csv_writer import CSVfeatureWriter
 
 
 class PacketSniffer:
@@ -10,6 +10,18 @@ class PacketSniffer:
     def start(self, packet_limit=1500):
         capture = pyshark.LiveCapture(interface='Wi-Fi')
         extractor = FeatureExtractor()
+        train_writer = CSVfeatureWriter(
+                "Data/train_features.csv",
+                FEATURE_COLUMNS
+                )
+        
+        test_writer = CSVfeatureWriter(
+            "Data/test_features.csv", 
+            FEATURE_COLUMNS)
+
+        
+      
+
        
         prev_time = None
 
@@ -36,6 +48,11 @@ class PacketSniffer:
 
                 # Send record to feature extractor
                 features = extractor.extract(record)
+                if i < 1000:
+                    train_writer.Write(features)
+                else:
+                    test_writer.Write(features)    
+                
                 print(features)
 
             except Exception as e:
